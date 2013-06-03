@@ -2,12 +2,15 @@
   "name": "<%= _.slugify(projectName) %>",
   "version": "0.0.0",
   "dependencies": {
-    // "requirejs": "*",
-    // "requirejs-text": "*",
-    // "requirejs-domready": "*",
-    // "jquery": "*",
-    // "underscore-amd": "*",
-    // "backbone-amd": "*"
+    "requirejs": "*",
+    "requirejs-text": "*",
+    "requirejs-domready": "*",
+    "jquery": "*",
+    "underscore-amd": "*",
+    "backbone-amd": "*"
+    // Use GRUNT?
+    // "helpers": "http://gist.github.com/5698298.git",
+    // "managers": "http://gist.github.com/5698800.git"
   },
   "devDependencies": {}
 }

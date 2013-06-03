@@ -2,83 +2,75 @@
 var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
+var fs = require('fs');
 
 
 var DefaultGenerator = module.exports = function DefaultGenerator(args, options, config) {
-  yeoman.generators.Base.apply(this, arguments);
+	yeoman.generators.Base.apply(this, arguments);
 
-  this.on('end', function () {
-    this.installDependencies({ skipInstall: options['skip-install'] });
-  });
+	this.on('end', function () {
+		this.installDependencies({ skipInstall: options['skip-install'] });
+	});
 
-  this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+	this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
 };
 
 util.inherits(DefaultGenerator, yeoman.generators.Base);
 
 DefaultGenerator.prototype.askFor = function askFor() {
-  var cb = this.async();
+	var cb = this.async();
 
-  // // welcome message
-  // var welcome =
-  // '\n     _-----_' +
-  // '\n    |       |' +
-  // '\n    |' + '--(o)--'.red + '|   .--------------------------.' +
-  // '\n   `---------´  |    ' + 'Welcome to Yeoman,'.yellow.bold + '    |' +
-  // '\n    ' + '( '.yellow + '_' + '´U`'.yellow + '_' + ' )'.yellow + '   |   ' + 'ladies and gentlemen!'.yellow.bold + '  |' +
-  // '\n    /___A___\\   \'__________________________\'' +
-  // '\n     |  ~  |'.yellow +
-  // '\n   __' + '\'.___.\''.yellow + '__' +
-  // '\n ´   ' + '`  |'.red + '° ' + '´ Y'.red + ' `\n';
+	var prompts = [{
+		name: 'projectName',
+		message: 'What is the name of the project?',
+	}];
 
-  // console.log(welcome);
+	this.prompt(prompts, function (err, props) {
+		if (err) {
+			return this.emit('error', err);
+		}
 
-  var prompts = [{
-    name: 'projectName',
-    message: 'What is the name of the project?',
-  }];
+		this.projectName = props.projectName;
 
-  this.prompt(prompts, function (err, props) {
-    if (err) {
-      return this.emit('error', err);
-    }
-
-    this.projectName = props.projectName;
-
-    cb();
-  }.bind(this));
+		cb();
+	}.bind(this));
 };
 
-DefaultGenerator.prototype.app = function app() {
-  console.log(this)
-  // this.mkdir('js');
-  // this.mkdir('js/models');
-  // this.mkdir('js/collections');
-  // this.mkdir('js/views');
-  // this.mkdir('js/routers');
-  // this.mkdir('js/lib');
-  // this.mkdir('html');
-  // this.mkdir('css');
-  // this.mkdir('images');
+DefaultGenerator.prototype.create = function app() {
+	this.template('_bowerrc', '.bowerrc');
+	this.template('bower.json', 'bower.json');
+	this.template('package.json', 'package.json');
 
+	this.mkdir('html');
+	this.template('index.jade', 'index.jade');
 
-  // this.template('bower.json', 'bower.json');
-  // this.template('package.json', 'package.json');
-  
-  // this.template('index.jade', 'index.jade');
+	this.mkdir('css');
+	this.template('css/main.styl', 'css/main.styl');
 
-  // this.template('css/main.styl', 'css/main.styl');
-  
-  // this.template('js/main.coffee', 'js/main.coffee');
-  // this.template('js/app.coffee', 'js/app.coffee');
-  // this.template('js/routers/main.coffee', 'js/routers/main.coffee');
-  // this.template('js/models/base.coffee', 'js/models/base.coffee');
-
-  // this.copy('_bowerrc', '.bowerrc');
-
-  // this.installDependencies();
+	this.mkdir('images');
 };
 
+DefaultGenerator.prototype.createJS = function app() {
+	this.mkdir('js');
+	this.template('js/main.coffee', 'js/main.coffee');
+	this.template('js/app.coffee', 'js/app.coffee');
+	this.template('js/config.coffee', 'js/config.coffee');
+	this.template('js/pubsub.coffee', 'js/pubsub.coffee');
+	
+	this.mkdir('js/routers');
+	this.template('js/routers/main.coffee', 'js/routers/main.coffee');
+
+	this.mkdir('js/models');
+	this.template('js/models/base.coffee', 'js/models/base.coffee');
+	this.template('js/models/currentUser.coffee', 'js/models/currentUser.coffee');
+
+	this.mkdir('js/collections');
+	this.template('js/collections/base.coffee', 'js/collections/base.coffee');
+
+	this.mkdir('js/views');
+
+	this.mkdir('js/managers');
+};
 
 // DefaultGenerator.prototype.projectfiles = function projectfiles() {
 //   // this.copy('editorconfig', '.editorconfig');
