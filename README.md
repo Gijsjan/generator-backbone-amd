@@ -1,4 +1,5 @@
-# Generator for Yeoman which scaffolds an app with Backbone.js, Require.js and Mocha-phantomjs testing.
+# Generator for Yeoman 
+Scaffolds an app with Backbone.js, Require.js and Mocha-phantomjs testing.
 
 ## Get the generator
 - git clone https://github.com/Gijsjan/generator-backbone-amd.git
