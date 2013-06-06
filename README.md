@@ -1,13 +1,22 @@
-# Generator-default
-[![Build Status](https://secure.travis-ci.org/Gijsjan/generator-default.png?branch=master)](https://travis-ci.org/Gijsjan/generator-default)
+# Generator for Yeoman which scaffolds an app with Backbone.js, Require.js and Mocha-phantomjs testing.
 
-A generator for Yeoman.
+## Get the generator
+- git clone https://github.com/Gijsjan/generator-backbone-amd.git
+- cd generator-backbone-amd
+- sudo npm link
 
-## Getting started
-- Make sure you have [yo](https://github.com/yeoman/yo) installed:
-    `npm install -g yo`
-- Install the generator: `npm install -g generator-default`
-- Run: `yo default`
+## Run the generator
+- mkdir ~/my_app
+- cd ~/my_app
+- yo backbone-amd
 
-## License
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
+## Check if Mocha tests work in the browser (tests in .test/tests.js)
+- npm start
+- Browse to 0.0.0.0:8000/.test/index.html
+
+## Check if Mocha works in the browser and the console (tests in test/*.coffee)
+- grunt watch
+- edit a .coffee file in /test
+- Browse to 0.0.0.0:8000/.test/index.html
+
+
