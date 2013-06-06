@@ -11,11 +11,11 @@ Scaffolds an app with Backbone.js, Require.js and Mocha-phantomjs testing.
 - cd ~/my_app
 - yo backbone-amd
 
-## Check if Mocha tests work in the browser (tests in .test/tests.js)
+## Mocha in the browser (tests in .test/tests.js)
 - npm start
 - Browse to 0.0.0.0:8000/.test/index.html
 
-## Check if Mocha works in the browser and the console (tests in test/*.coffee)
+## Mocha in the browser and console (tests in test/*.coffee)
 - grunt watch
 - edit a .coffee file in /test
 - Browse to 0.0.0.0:8000/.test/index.html
