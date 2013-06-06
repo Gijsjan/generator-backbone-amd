@@ -1,7 +1,26 @@
 {
 	"name": "<%= _.slugify(projectName) %>",
 	"version": "0.0.0",
-	"dependencies": {
-		
+	"author": {
+		"name": "",
+		"email": "",
+		"url": "https://github.com/Gijsjan"
+	},
+	"main": "app/index.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Gijsjan/generator-backbone-amd.git"
+	},
+	"scripts": {
+		"start": "node ./.test/bin/server.js"
+	},
+	"devDependencies": {
+		"coffee-script": "*",
+		"stylus": "*",
+		"jade": "*",
+		"grunt": "~0.4.1",
+		"grunt-shell": "~0.2.2",
+		"grunt-contrib-watch": "~0.4.4",
+		"grunt-contrib-coffee": "~0.7.0"
 	}
 }
