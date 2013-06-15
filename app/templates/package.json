@@ -1,26 +1,30 @@
 {
-	"name": "<%= _.slugify(projectName) %>",
-	"version": "0.0.0",
-	"author": {
-		"name": "",
-		"email": "",
-		"url": "https://github.com/Gijsjan"
-	},
-	"main": "app/index.js",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/Gijsjan/generator-backbone-amd.git"
-	},
-	"scripts": {
-		"start": "node ./.test/bin/server.js"
-	},
-	"devDependencies": {
-		"coffee-script": "*",
-		"stylus": "*",
-		"jade": "*",
-		"grunt": "~0.4.1",
-		"grunt-shell": "~0.2.2",
-		"grunt-contrib-watch": "~0.4.4",
-		"grunt-contrib-coffee": "~0.7.0"
-	}
+  "name": "goldenrose",
+  "version": "0.0.0",
+  "author": {
+    "name": "",
+    "email": "",
+    "url": "https://github.com/Gijsjan"
+  },
+  "main": "app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Gijsjan/generator-backbone-amd.git"
+  },
+  "scripts": {
+    "test": "node ./.test/bin/server.js",
+    "start": "coffee ./server.coffee"
+  },
+  "devDependencies": {
+    "coffee-script": "*",
+    "stylus": "*",
+    "jade": "*",
+    "express": "*",
+    "grunt": "~0.4.1",
+    "grunt-shell": "~0.2.2",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-jade": "~0.7.0",
+    "grunt-contrib-stylus": "~0.5.0"
+  }
 }
