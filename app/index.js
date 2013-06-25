@@ -42,45 +42,49 @@ DefaultGenerator.prototype.askFor = function askFor() {
 
 var base = 'dev/';
 
-DefaultGenerator.prototype.createBase = function app() {
-
+DefaultGenerator.prototype.createDirectories = function app() {
 	this.mkdir('test');
+
+	this.mkdir('src');
+	this.mkdir('src/jade');
+	this.mkdir('src/stylus');
+	this.mkdir('src/coffee');
+
+	this.mkdir('dev');
+	this.mkdir('dev/html');
+	this.mkdir('dev/css');
+	this.mkdir('dev/js');
+	this.mkdir('dev/js/routers');
+	this.mkdir('dev/js/models');
+	this.mkdir('dev/js/collections');
+	this.mkdir('dev/js/views');
+	this.mkdir('dev/js/managers');
+	this.mkdir('dev/images');
+	this.mkdir('dev/lib');
+};
+
+DefaultGenerator.prototype.createJade = function app() {
+	this.template('src/index.jade', 'src/index.jade');
+};
+
+DefaultGenerator.prototype.createStylus = function app() {
+	this.template('src/stylus/main.styl', 'src/stylus/main.styl');
+};
+
+DefaultGenerator.prototype.createCoffee = function app() {
 	this.template('test/body.coffee', 'test/body.coffee');
 
-	this.mkdir(base);
-	this.mkdir(base + 'html');
-	this.mkdir(base + 'css');
-	this.mkdir(base + 'images');
-	this.mkdir(base + 'js');
-	this.mkdir(base + 'js/routers');
-	this.mkdir(base + 'js/models');
-	this.mkdir(base + 'js/collections');
-	this.mkdir(base + 'js/views');
-	this.mkdir(base + 'js/managers');
+	this.template('src/coffee/main.coffee', 'src/coffee/main.coffee');
+	this.template('src/coffee/app.coffee', 'src/coffee/app.coffee');
+	this.template('src/coffee/config.coffee', 'src/coffee/config.coffee');
+	this.template('src/coffee/pubsub.coffee', 'src/coffee/pubsub.coffee');
 
-	this.template('_bowerrc', '.bowerrc');
-	this.template('bower.json', 'bower.json');
-	this.template('package.json', 'package.json');
-	this.template('Gruntfile.coffee', 'Gruntfile.coffee');
-};
+	this.template('src/coffee/routers/main.coffee', 'src/coffee/routers/main.coffee');
 
-DefaultGenerator.prototype.createMarkup = function app() {
-	this.template(base+'index.jade', base+'index.jade');
-	this.template(base+'css/main.styl', base+'css/main.styl');
-};
+	this.template('src/coffee/models/base.coffee', 'src/coffee/models/base.coffee');
+	this.template('src/coffee/models/currentUser.coffee', 'src/coffee/models/currentUser.coffee');
 
-DefaultGenerator.prototype.createJS = function app() {
-	this.template(base+'js/main.coffee', base+'js/main.coffee');
-	this.template(base+'js/app.coffee', base+'js/app.coffee');
-	this.template(base+'js/config.coffee', base+'js/config.coffee');
-	this.template(base+'js/pubsub.coffee', base+'js/pubsub.coffee');
-
-	this.template(base+'js/routers/main.coffee', base+'js/routers/main.coffee');
-
-	this.template(base+'js/models/base.coffee', base+'js/models/base.coffee');
-	this.template(base+'js/models/currentUser.coffee', base+'js/models/currentUser.coffee');
-
-	this.template(base+'js/collections/base.coffee', base+'js/collections/base.coffee');
+	this.template('src/coffee/collections/base.coffee', 'src/coffee/collections/base.coffee');
 };
 
 // ADD helpers & managers using Grunt
