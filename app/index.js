@@ -40,8 +40,6 @@ DefaultGenerator.prototype.askFor = function askFor() {
 	}.bind(this));
 };
 
-var base = 'dev/';
-
 DefaultGenerator.prototype.createDirectories = function app() {
 	this.mkdir('test');
 
