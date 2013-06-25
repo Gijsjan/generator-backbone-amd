@@ -40,6 +40,9 @@ DefaultGenerator.prototype.askFor = function askFor() {
 	}.bind(this));
 };
 
+<<<<<<< HEAD
+DefaultGenerator.prototype.createDirectories = function app() {
+=======
 DefaultGenerator.prototype.createBase = function app() {
 
 	this.mkdir('dev');
@@ -57,9 +60,40 @@ DefaultGenerator.prototype.createBase = function app() {
 	this.mkdir('src/coffee/views');
 	this.mkdir('src/coffee/managers');
 
+>>>>>>> 01fe3fd7d89d350b9d956f710a5d8426e1a3844f
 	this.mkdir('test');
+
+<<<<<<< HEAD
+	this.mkdir('src');
+	this.mkdir('src/jade');
+	this.mkdir('src/stylus');
+	this.mkdir('src/coffee');
+
+	this.mkdir('dev');
+	this.mkdir('dev/html');
+	this.mkdir('dev/css');
+	this.mkdir('dev/js');
+	this.mkdir('dev/js/routers');
+	this.mkdir('dev/js/models');
+	this.mkdir('dev/js/collections');
+	this.mkdir('dev/js/views');
+	this.mkdir('dev/js/managers');
+	this.mkdir('dev/images');
+	this.mkdir('dev/lib');
+};
+
+DefaultGenerator.prototype.createJade = function app() {
+	this.template('src/index.jade', 'src/index.jade');
+};
+
+DefaultGenerator.prototype.createStylus = function app() {
+	this.template('src/stylus/main.styl', 'src/stylus/main.styl');
+};
+
+DefaultGenerator.prototype.createCoffee = function app() {
 	this.template('test/body.coffee', 'test/body.coffee');
 
+=======
 	this.template('_bowerrc', '.bowerrc');
 	this.template('bower.json', 'bower.json');
 	this.template('package.json', 'package.json');
@@ -69,13 +103,11 @@ DefaultGenerator.prototype.createBase = function app() {
 
 DefaultGenerator.prototype.createMarkup = function app() {
 	this.template('src/index.jade', 'src/index.jade');
-};
-
-DefaultGenerator.prototype.createStylus = function app() {
 	this.template('src/stylus/main.styl', 'src/stylus/main.styl');
 };
 
 DefaultGenerator.prototype.createJS = function app() {
+>>>>>>> 01fe3fd7d89d350b9d956f710a5d8426e1a3844f
 	this.template('src/coffee/main.coffee', 'src/coffee/main.coffee');
 	this.template('src/coffee/app.coffee', 'src/coffee/app.coffee');
 	this.template('src/coffee/config.coffee', 'src/coffee/config.coffee');

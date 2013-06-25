@@ -1,8 +1,8 @@
 require.config({
-	baseUrl: '/.test/',
+	baseUrl: '/dev/js/',
 	paths: {
-		mocha: '../dev/js/lib/mocha/mocha',
-		chai: '../dev/js/lib/chai/chai'
+		mocha: '../lib/mocha/mocha',
+		chai: '../lib/chai/chai'
 		// jquery: 'lib/jquery-1.9.1'
 	}
 });
@@ -10,7 +10,7 @@ require.config({
 require(['require', 'mocha'], function(require)  {
 	mocha.setup('bdd');
 
-	require(['/.test/tests.js'], function() {
+	require(['../../.test/tests.js'], function() {
 		if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
 		else { mocha.run(); }
 	});
