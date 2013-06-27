@@ -18,6 +18,7 @@ TestingGenerator.prototype.files = function files() {
 	this.template('main.js', '.test/main.js');
 	this.template('tests.js', '.test/tests.js');
 	this.template('head.coffee', '.test/head.coffee');
+	this.template('template.coffee', '.test/template.coffee');
 
 	this.template('bin/server.js', '.test/bin/server.js');
 };

@@ -1,10 +1,10 @@
 require.config 
     paths:
-        'jquery': 'lib/jquery/jquery'
-        'underscore': 'lib/underscore-amd/underscore'
-        'backbone': 'lib/backbone-amd/backbone'
-        'domready': 'lib/requirejs-domready/domReady'
-        'text': 'lib/requirejs-text/text'
+        'jquery': '../lib/jquery/jquery'
+        'underscore': '../lib/underscore-amd/underscore'
+        'backbone': '../lib/backbone-amd/backbone'
+        'domready': '../lib/requirejs-domready/domReady'
+        'text': '../lib/requirejs-text/text'
         'html': '../html'
 
     shim:

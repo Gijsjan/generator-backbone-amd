@@ -19,6 +19,7 @@
     "coffee-script": "*",
     "stylus": "*",
     "jade": "*",
+    "underscore": "*",
     "express": "*",
     "grunt": "*",
     "grunt-shell": "*",

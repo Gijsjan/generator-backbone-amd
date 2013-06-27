@@ -69,10 +69,12 @@ DefaultGenerator.prototype.createBase = function app() {
 
 DefaultGenerator.prototype.createMarkup = function app() {
 	this.template('src/index.jade', 'src/index.jade');
+	this.template('src/jade/home.jade', 'src/jade/home.jade');
 };
 
 DefaultGenerator.prototype.createStylus = function app() {
 	this.template('src/stylus/main.styl', 'src/stylus/main.styl');
+	this.template('src/stylus/layout.styl', 'src/stylus/layout.styl');
 };
 
 DefaultGenerator.prototype.createJS = function app() {
@@ -87,6 +89,13 @@ DefaultGenerator.prototype.createJS = function app() {
 	this.template('src/coffee/models/currentUser.coffee', 'src/coffee/models/currentUser.coffee');
 
 	this.template('src/coffee/collections/base.coffee', 'src/coffee/collections/base.coffee');
+	this.template('src/coffee/collections/view.coffee', 'src/coffee/collections/view.coffee');
+
+	this.template('src/coffee/views/base.coffee', 'src/coffee/views/base.coffee');
+	this.template('src/coffee/views/home.coffee', 'src/coffee/views/home.coffee');
+
+	this.template('src/coffee/managers/cookie.coffee', 'src/coffee/managers/cookie.coffee');
+	this.template('src/coffee/managers/view.coffee', 'src/coffee/managers/view.coffee');
 };
 
 // ADD helpers & managers using Grunt
