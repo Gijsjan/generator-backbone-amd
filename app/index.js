@@ -41,7 +41,6 @@ DefaultGenerator.prototype.askFor = function askFor() {
 };
 
 DefaultGenerator.prototype.createBase = function app() {
-
 	this.mkdir('dev');
 	this.mkdir('dev/html');
 	this.mkdir('dev/css');
@@ -57,8 +56,7 @@ DefaultGenerator.prototype.createBase = function app() {
 	this.mkdir('src/coffee/views');
 	this.mkdir('src/coffee/managers');
 
-	this.mkdir('test');
-	this.template('test/body.coffee', 'test/body.coffee');
+	this.mkdir('stage');
 
 	this.template('_bowerrc', '.bowerrc');
 	this.template('bower.json', 'bower.json');

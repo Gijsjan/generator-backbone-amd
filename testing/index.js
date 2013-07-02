@@ -14,6 +14,9 @@ TestingGenerator.prototype.files = function files() {
 	this.mkdir('.test');
 	this.mkdir('.test/bin');
 
+	this.mkdir('test');
+	this.template('test/body.coffee', 'test/body.coffee');
+
 	this.template('index.html', '.test/index.html');
 	this.template('main.js', '.test/main.js');
 	this.template('tests.js', '.test/tests.js');
