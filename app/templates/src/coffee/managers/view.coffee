@@ -1,5 +1,6 @@
 define (require) ->
 	Backbone = require 'backbone'
+	config = require 'config'
 	
 	Collections =
 		'View': require 'collections/view'
@@ -18,7 +19,7 @@ define (require) ->
 			if view.destroy then view.destroy() else view.remove()
 
 		constructor: ->
-			@main = $ 'div#main'
+			@main = $ config.appRootElement
 
 
 		clear: (view) ->
