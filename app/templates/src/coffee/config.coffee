@@ -1,3 +1,4 @@
 define (require) ->
 	config =
-		'baseUrl': ''
+		appRootElement: '#app'
+		baseURL: ''
