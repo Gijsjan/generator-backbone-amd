@@ -14,4 +14,4 @@ define (require) ->
             if href?
                 e.preventDefault()
 
-                Backbone.history.navigate href, 'trigger': true
+                Backbone.history.navigate href, trigger: true

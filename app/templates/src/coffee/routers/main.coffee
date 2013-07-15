@@ -8,14 +8,12 @@ define (require) ->
 		Home: require 'views/home'
 
 	class MainRouter extends Backbone.Router
-
 		view: null
 
 		query: {}
 
 		show: (route, params) ->
 			viewManager.clear() # Empty the viewManager before initializing new views
- 
 			viewManager.show new @view @query
 
 			@query = {}
