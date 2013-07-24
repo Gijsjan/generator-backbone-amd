@@ -5,7 +5,7 @@ app = express()
 
 app.use express.bodyParser()
 
-app.use express.static(__dirname + '/dev')
+app.use express.static(__dirname + '/compiled')
 
 _writeResponse = (response, res) ->
 	console.log '_writeResponse: no http code!' if not response.code?

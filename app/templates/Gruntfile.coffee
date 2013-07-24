@@ -13,7 +13,7 @@ module.exports = (grunt) ->
 					stderr: true
 			emptydir:
 				command:
-					'rm -rf stage/*'
+					'rm -rf dist/*'
 			# rsync:
 			# 	command:
 			# 		'rsync --copy-links --compress --archive --verbose --checksum --chmod=a+r elaborate4@hi14hingtest.huygens.knaw.nl:UNKNOWN'
@@ -21,8 +21,8 @@ module.exports = (grunt) ->
 			# 		stdout: true
 			symlink_images:
 				command: [
-					'cd stage'
-					'ln -s ../dev/images images'
+					'cd dist'
+					'ln -s ../compiled/images images'
 				].join '&&'
 
 		coffee:
@@ -31,7 +31,7 @@ module.exports = (grunt) ->
 					expand: true
 					cwd: 'src/coffee'
 					src: '**/*.coffee'
-					dest: 'dev/js'
+					dest: 'compiled/js'
 					ext: '.js'
 				,
 					'.test/tests.js': ['.test/head.coffee', 'test/**/*.coffee']
@@ -52,20 +52,20 @@ module.exports = (grunt) ->
 					expand: true
 					cwd: 'src/jade'
 					src: '**/*.jade'
-					dest: 'dev/html'
+					dest: 'compiled/html'
 					ext: '.html'			
 				,
 				# 	expand: true
 				# 	cwd: 'src/coffee/modules'
 				# 	src: '**/*.jade'
-				# 	dest: 'dev/html/modules'
+				# 	dest: 'compiled/html/modules'
 				# 	ext: '.html'
 				# 	rename: (dest, src) ->
 				# 		a = src.split('/') # src = moduleName/jade/tpl.jade
 				# 		a.splice(1, 1) # Remove jade folder
-				# 		dest + '/' + a.join('/') # Concat dest = 'dev/html/modules' with 'moduleName/tpl.jade'
+				# 		dest + '/' + a.join('/') # Concat dest = 'compiled/html/modules' with 'moduleName/tpl.jade'
 				# ,
-					# 'dev/index.html': 'src/index.jade'
+					'compiled/index.html': 'src/index.jade'
 				]
 			compile:
 				options:
@@ -77,25 +77,25 @@ module.exports = (grunt) ->
 					paths: ['src/stylus/import']
 					import: ['variables', 'functions']
 				files:
-					'dev/css/main.css': ['src/stylus/**/*.styl', '!src/stylus/import/*.styl']
+					'compiled/css/main.css': ['src/stylus/**/*.styl', '!src/stylus/import/*.styl']
 
 		copy:
 			css:
 				files: [
-					'stage/css/main.css': 'dev/css/main.css'
+					'dist/css/main.css': 'compiled/css/main.css'
 				]
 			# module_images:
 			# 	files: [
 			# 		expand: true
 			# 		cwd: 'src/coffee/modules/'
 			# 		src: ['**/*.gif', '**/*.png', '**/*.jpg']
-			# 		dest: 'dev/images/'
+			# 		dest: 'compiled/images/'
 			# 	]
 
 		# replace:
 		# 	html:
-		# 		src: 'dev/index.html'
-		# 		dest: 'stage/index.html'
+		# 		src: 'compiled/index.html'
+		# 		dest: 'dist/index.html'
 		# 		replacements: [
 		# 			from: '<script data-main="/js/main" src="/lib/requirejs/require.js"></script>'
 		# 			to: '<script src="/js/require.js"></script><script src="/js/main.js"></script>'
@@ -105,9 +105,9 @@ module.exports = (grunt) ->
 			compile:
 				options:
 					name: 'views/faceted-search'
-					baseUrl: "dev/js"
+					baseUrl: "compiled/js"
 					preserveLicenseComments: false
-					out: "stage/js/faceted-search.js"
+					out: "dist/js/faceted-search.js"
 					paths:
 						'backbone': '../lib/backbone-amd/backbone-min'
 						'domready': '../lib/requirejs-domready/domReady'
@@ -119,7 +119,7 @@ module.exports = (grunt) ->
 		uglify:
 			requirejs:
 				files:
-					'stage/js/require.js': 'dev/lib/requirejs/require.js'
+					'dist/js/require.js': 'compiled/lib/requirejs/require.js'
 
 		watch:
 			options:
@@ -181,18 +181,18 @@ module.exports = (grunt) ->
 
 			if type is 'coffee'
 				testDestPath = srcPath.replace 'src/coffee', 'test'
-				destPath = 'dev'+srcPath.replace(new RegExp(type, 'g'), 'js').substr(3);
+				destPath = 'compiled'+srcPath.replace(new RegExp(type, 'g'), 'js').substr(3);
 
 			if type is 'jade'
 				if srcPath.substr(0, 18) is 'src/coffee/modules' # If the .jade comes from a module
 					a = srcPath.split('/')
-					a[0] = 'dev'
+					a[0] = 'compiled'
 					a[1] = 'html'
 					a.splice(4, 1)
 					destPath = a.join('/')
 					destPath = destPath.slice(0, -4) + 'html'
 				else # If the .jade comes from the main app
-					destPath = 'dev'+srcPath.replace(new RegExp(type, 'g'), 'html').substr(3);
+					destPath = 'compiled'+srcPath.replace(new RegExp(type, 'g'), 'html').substr(3);
 
 			if type? and action is 'changed' or action is 'added'
 				data = {}

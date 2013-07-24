@@ -13,7 +13,7 @@ var DefaultGenerator = module.exports = function DefaultGenerator(args, options,
 	});
 
 	this.on('end', function () {
-		this.installDependencies({ skipInstall: options['skip-install'] });
+		this.installDependencies();
 	});
 
 	this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -41,59 +41,72 @@ DefaultGenerator.prototype.askFor = function askFor() {
 };
 
 DefaultGenerator.prototype.createBase = function app() {
-	this.mkdir('dev');
-	this.mkdir('dev/html');
-	this.mkdir('dev/css');
-	this.mkdir('dev/images');
-	this.mkdir('dev/js');
-	
-	this.mkdir('src');
-	this.mkdir('src/jade');
-	this.mkdir('src/stylus');
-	this.mkdir('src/coffee/routers');
-	this.mkdir('src/coffee/models');
-	this.mkdir('src/coffee/collections');
-	this.mkdir('src/coffee/views');
-	this.mkdir('src/coffee/managers');
+	this.directory('src', 'src');
+	this.mkdir('compiled');
+	this.mkdir('dist');
+	this.mkdir('images');
 
-	this.mkdir('stage');
+	this.copy('_bowerrc', '.bowerrc');
+	this.copy('Gruntfile.coffee', 'Gruntfile.coffee');
+	this.copy('server.coffee', 'server.coffee'); // Remove to use grunt server
 
-	this.template('_bowerrc', '.bowerrc');
 	this.template('bower.json', 'bower.json');
 	this.template('package.json', 'package.json');
-	this.template('Gruntfile.coffee', 'Gruntfile.coffee');
-	this.template('server.coffee', 'server.coffee');
-};
+}	
+// DefaultGenerator.prototype.createBase = function app() {
+// 	this.mkdir('dev');
+// 	this.mkdir('dev/html');
+// 	this.mkdir('dev/css');
+// 	this.mkdir('dev/images');
+// 	this.mkdir('dev/js');
+	
+// 	this.mkdir('src');
+// 	this.mkdir('src/jade');
+// 	this.mkdir('src/stylus');
+// 	this.mkdir('src/coffee/routers');
+// 	this.mkdir('src/coffee/models');
+// 	this.mkdir('src/coffee/collections');
+// 	this.mkdir('src/coffee/views');
+// 	this.mkdir('src/coffee/managers');
 
-DefaultGenerator.prototype.createMarkup = function app() {
-	this.template('src/index.jade', 'src/index.jade');
-	this.template('src/jade/home.jade', 'src/jade/home.jade');
-};
+// 	this.mkdir('stage');
 
-DefaultGenerator.prototype.createStylus = function app() {
-	this.template('src/stylus/main.styl', 'src/stylus/main.styl');
-	this.template('src/stylus/layout.styl', 'src/stylus/layout.styl');
-};
+// 	this.template('_bowerrc', '.bowerrc');
+// 	this.template('bower.json', 'bower.json');
+// 	this.template('package.json', 'package.json');
+// 	this.template('Gruntfile.coffee', 'Gruntfile.coffee');
+// 	this.template('server.coffee', 'server.coffee');
+// };
 
-DefaultGenerator.prototype.createJS = function app() {
-	this.template('src/coffee/main.coffee', 'src/coffee/main.coffee');
-	this.template('src/coffee/app.coffee', 'src/coffee/app.coffee');
-	this.template('src/coffee/config.coffee', 'src/coffee/config.coffee');
-	this.template('src/coffee/pubsub.coffee', 'src/coffee/pubsub.coffee');
+// DefaultGenerator.prototype.createMarkup = function app() {
+// 	this.template('src/index.jade', 'src/index.jade');
+// 	this.template('src/jade/home.jade', 'src/jade/home.jade');
+// };
 
-	this.template('src/coffee/routers/main.coffee', 'src/coffee/routers/main.coffee');
+// DefaultGenerator.prototype.createStylus = function app() {
+// 	this.template('src/stylus/main.styl', 'src/stylus/main.styl');
+// 	this.template('src/stylus/layout.styl', 'src/stylus/layout.styl');
+// };
 
-	this.template('src/coffee/models/base.coffee', 'src/coffee/models/base.coffee');
-	this.template('src/coffee/models/currentUser.coffee', 'src/coffee/models/currentUser.coffee');
+// DefaultGenerator.prototype.createJS = function app() {
+// 	this.template('src/coffee/main.coffee', 'src/coffee/main.coffee');
+// 	this.template('src/coffee/app.coffee', 'src/coffee/app.coffee');
+// 	this.template('src/coffee/config.coffee', 'src/coffee/config.coffee');
+// 	this.template('src/coffee/pubsub.coffee', 'src/coffee/pubsub.coffee');
 
-	this.template('src/coffee/collections/base.coffee', 'src/coffee/collections/base.coffee');
-	this.template('src/coffee/collections/view.coffee', 'src/coffee/collections/view.coffee');
+// 	this.template('src/coffee/routers/main.coffee', 'src/coffee/routers/main.coffee');
 
-	this.template('src/coffee/views/base.coffee', 'src/coffee/views/base.coffee');
-	this.template('src/coffee/views/home.coffee', 'src/coffee/views/home.coffee');
+// 	this.template('src/coffee/models/base.coffee', 'src/coffee/models/base.coffee');
+// 	this.template('src/coffee/models/currentUser.coffee', 'src/coffee/models/currentUser.coffee');
 
-	this.template('src/coffee/managers/cookie.coffee', 'src/coffee/managers/cookie.coffee');
-	this.template('src/coffee/managers/view.coffee', 'src/coffee/managers/view.coffee');
-};
+// 	this.template('src/coffee/collections/base.coffee', 'src/coffee/collections/base.coffee');
+// 	this.template('src/coffee/collections/view.coffee', 'src/coffee/collections/view.coffee');
+
+// 	this.template('src/coffee/views/base.coffee', 'src/coffee/views/base.coffee');
+// 	this.template('src/coffee/views/home.coffee', 'src/coffee/views/home.coffee');
+
+// 	this.template('src/coffee/managers/cookie.coffee', 'src/coffee/managers/cookie.coffee');
+// 	this.template('src/coffee/managers/view.coffee', 'src/coffee/managers/view.coffee');
+// };
 
 // ADD helpers & managers using Grunt
