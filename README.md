@@ -1,6 +1,8 @@
 # Generator for Yeoman 
 Scaffolds an app with Backbone.js, Require.js and Mocha-phantomjs testing.
 
+Make sure you have Yeoman installed: sudo npm install -g yo
+
 ## Get the generator
 - git clone https://github.com/Gijsjan/generator-backbone-amd.git
 - cd generator-backbone-amd
