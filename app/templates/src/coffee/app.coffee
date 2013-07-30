@@ -3,8 +3,14 @@ define (require) ->
 
     MainRouter = require 'routers/main'
 
+    Views =
+        Header: require 'views/ui/header'
+
     initialize: ->
         mainRouter = new MainRouter()
+
+        header = new Views.Header managed: false
+        $('.wrapper').prepend header.$el
 
         Backbone.history.start pushState: true   
 

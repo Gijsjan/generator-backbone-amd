@@ -1,7 +1,7 @@
 define (require) ->
 	Backbone = require 'backbone'
 
-	Pubsub = require 'pubsub'
+	Pubsub = require 'managers/pubsub'
 	viewManager = require 'managers/view'
 
 	class BaseView extends Backbone.View

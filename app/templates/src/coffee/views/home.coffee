@@ -10,6 +10,8 @@ define (require) ->
 		initialize: ->
 			super
 
+			@render()
+
 		render: ->
 			rtpl = _.template Templates.Home
 			@$el.html rtpl
