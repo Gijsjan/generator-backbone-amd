@@ -30,6 +30,8 @@
     "grunt-contrib-requirejs": "*",
     "grunt-contrib-copy": "*",
     "grunt-contrib-uglify": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-concat": "*",
     "grunt-text-replace": "*"
   }
 }
