@@ -32,6 +32,10 @@ connect_middleware = (connect, options) ->
 
 				readStream = fs.createReadStream filePath
 				readStream.pipe res
+
+			# Create a favicon on the fly if it does not exist
+			if req.url is '/favicon.ico' and not fs.existsSync(options.base + req.url)
+				fs.openSync options.base + req.url, 'w'
 			
 			extName = path.extname req.url
 
@@ -49,6 +53,28 @@ module.exports = (grunt) ->
 
 	grunt.initConfig
 
+		### SHELL ###
+
+		shell:
+			options:
+				stdout: true
+				stderr: true
+			mocha: 
+				command: 'mocha-phantomjs -R dot http://localhost:9002/.test/index.html'
+			emptydist:
+				command:
+					'rm -rf dist/*'
+			emptycompiled:
+				command:
+					'rm -rf compiled/*'
+			# rsync:
+			# 	command:
+			# 		'rsync --copy-links --compress --archive --verbose --checksum --exclude=.svn --chmod=a+r dist/ elaborate4@hi14hingtest.huygens.knaw.nl:elab4testFE/'
+			bowerinstall:
+				command: 'bower install'
+			groc:
+				command: 'groc "src/coffee/**/*.coffee" --out=compiled/docs'
+
 		createSymlinks:
 			compiled: [
 				src: 'images'
@@ -65,37 +91,15 @@ module.exports = (grunt) ->
 				dest: 'dist/images'
 			}]
 
-
-		shell:
-			'mocha-phantomjs': 
-				command: 'mocha-phantomjs -R dot http://localhost:8000/.test/index.html'
-				options:
-					stdout: true
-					stderr: true
-
-			emptydist:
-				command:
-					'rm -rf dist/*'
-
-			emptycompiled:
-				command:
-					'rm -rf compiled/*'
-
-			# rsync:
-			# 	command:
-			# 		'rsync --copy-links --compress --archive --verbose --checksum --exclude=.svn --chmod=a+r dist/ elaborate4@hi14hingtest.huygens.knaw.nl:elab4testFE/'
-			# 	options:
-			# 		stdout: true
-
-			bowerinstall:
-				command: 'bower install'
-				options:
-					stdout: true
-					stderr: true
-
 		### SERVER ###	
 
 		connect:
+			keepalive:
+				options:
+					port: 9000
+					base: 'compiled'
+					middleware: connect_middleware
+					keepalive: true
 			compiled:
 				options:
 					port: 9000
@@ -105,6 +109,11 @@ module.exports = (grunt) ->
 				options:
 					port: 9001
 					base: 'dist'
+					middleware: connect_middleware			
+			test:
+				options:
+					port: 9002
+					base: ''
 					middleware: connect_middleware
 
 		### HTML ###
@@ -116,7 +125,8 @@ module.exports = (grunt) ->
 					cwd: 'src/jade'
 					src: '**/*.jade'
 					dest: 'compiled/html'
-					ext: '.html'			
+					rename: (dest, src) -> 
+						dest + '/' + src.replace(/.jade/, '.html') # Use rename to preserve multiple dots in filenames (nav.user.coffee => nav.user.js)
 				,
 					'compiled/index.html': 'src/index.jade'
 				]
@@ -171,7 +181,8 @@ module.exports = (grunt) ->
 					cwd: 'src/coffee'
 					src: '**/*.coffee'
 					dest: 'compiled/js'
-					ext: '.js'
+					rename: (dest, src) -> 
+						dest + '/' + src.replace(/.coffee/, '.js') # Use rename to preserve multiple dots in filenames (nav.user.coffee => nav.user.js)
 				,
 					'.test/tests.js': ['.test/head.coffee', 'test/**/*.coffee']
 				]
@@ -183,7 +194,7 @@ module.exports = (grunt) ->
 					'.test/tests.js': ['.test/head.coffee', 'test/**/*.coffee']
 			compile:
 				options:
-					bare: false # UglyHack: set a property to its default value to be able to call coffee:compile
+					bare: false # UglyHack: set a property to its default value to be able to call coffee:compiled
 		
 		requirejs:
 			compile:
@@ -213,7 +224,7 @@ module.exports = (grunt) ->
 				nospawn: true
 			coffeetest:
 				files: 'test/**/*.coffee'
-				tasks: ['coffee:test', 'shell:mocha-phantomjs']
+				tasks: ['coffee:test', 'shell:mocha']
 			coffee:
 				files: 'src/coffee/**/*.coffee'
 				tasks: 'coffee:compile'
@@ -222,7 +233,7 @@ module.exports = (grunt) ->
 				tasks: 'jade:compile'
 			stylus:
 				files: ['src/stylus/**/*.styl']
-				tasks: 'stylus:compile'
+				tasks: ['stylus:compile', 'concat:css']
 
 	#############
 	### TASKS ###
@@ -240,10 +251,29 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks 'grunt-contrib-watch'
 	grunt.loadNpmTasks 'grunt-shell'
 	grunt.loadNpmTasks 'grunt-text-replace'
+	grunt.loadNpmTasks 'grunt-groc'
 
-	grunt.registerTask('default', ['shell:mocha-phantomjs']);
+	grunt.registerTask('default', ['sw']);
+	
+	# Generate docs
+	grunt.registerTask 'd', ['shell:groc']
 
-	grunt.registerTask 'compile', [
+	# Server
+	grunt.registerTask 's', ['connect:keepalive']
+
+	# Watch
+	grunt.registerTask 'w', ['watch']
+
+	# Server and watch
+	grunt.registerTask 'sw', [
+		'connect:compiled'
+		'connect:dist'
+		'connect:test'
+		'watch'
+	]
+
+	# Compile
+	grunt.registerTask 'c', [
 		'shell:emptycompiled' # rm -rf compiled/
 		'shell:bowerinstall' # Get dependencies first, cuz css needs to be included (and maybe images?)
 		'createSymlinks:compiled'
@@ -253,7 +283,8 @@ module.exports = (grunt) ->
 		'concat:css'
 	]
 
-	grunt.registerTask 'build', [
+	# Build
+	grunt.registerTask 'b', [
 		'shell:emptydist'
 		'createSymlinks:dist'
 		'replace:html' # Copy and replace index.html
@@ -262,10 +293,7 @@ module.exports = (grunt) ->
 		# 'shell:rsync' # Rsync to test server
 	]
 
-	grunt.registerTask 'server', [
-		'connect'
-		'watch'
-	]
+	grunt.registerTask 'all', ['c', 'd', 'b', 'sw']
 
 	grunt.registerMultiTask 'createSymlinks', 'Creates a symlink', ->
 		for own index, config of this.data
@@ -299,15 +327,7 @@ module.exports = (grunt) ->
 				destPath = 'compiled'+srcPath.replace(new RegExp(type, 'g'), 'js').substr(3);
 
 			if type is 'jade'
-				if srcPath.substr(0, 18) is 'src/coffee/modules' # If the .jade comes from a module
-					a = srcPath.split('/')
-					a[0] = 'compiled'
-					a[1] = 'html'
-					a.splice(4, 1)
-					destPath = a.join('/')
-					destPath = destPath.slice(0, -4) + 'html'
-				else # If the .jade comes from the main app
-					destPath = 'compiled'+srcPath.replace(new RegExp(type, 'g'), 'html').substr(3);
+				destPath = 'compiled'+srcPath.replace(new RegExp(type, 'g'), 'html').substr(3);
 
 			if type? and action is 'changed' or action is 'added'
 				data = {}

@@ -32,6 +32,7 @@
 		"grunt-contrib-cssmin": "*",
 		"grunt-contrib-concat": "*",
 		"grunt-text-replace": "*",
-		"grunt-contrib-connect": "*"
+		"grunt-contrib-connect": "*",
+		"grunt-groc": "*"
 	}
 }
