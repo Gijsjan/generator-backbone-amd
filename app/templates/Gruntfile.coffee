@@ -22,9 +22,11 @@ connect_middleware = (connect, options) ->
 				'.jpeg': 'image/jpeg'
 				'.png': 'image/png'
 				'.ico': 'image/x-icon'
+				'.ttf': 'application/octet-stream'
 			
 			sendFile = (reqUrl) ->
 				filePath = path.join options.base, reqUrl
+				console.log "Fetching #{filePath}"
 				
 				res.writeHead 200,
 					'Content-Type': contentTypesMap[extName] || 'text/html'
@@ -116,6 +118,21 @@ module.exports = (grunt) ->
 					base: ''
 					middleware: connect_middleware
 
+		### STATIC FILES ###
+		rsync:
+			options:
+				args: ["--verbose", "-i"]
+				exclude: [".git*"]
+				recursive: true
+			compiled:
+				options:
+					src: "./src/static/"
+					dest: "./compiled/static"
+			dist:
+				options:
+					src: "./src/static/"
+					dest: "./dist/static"
+
 		### HTML ###
 		
 		jade:
@@ -149,7 +166,7 @@ module.exports = (grunt) ->
 			compile:
 				options:
 					paths: ['src/stylus/import']
-					import: ['variables', 'functions']
+					import: ['variables', 'functions', 'helpers']
 				files:
 					'compiled/css/project.css': [
 						'src/stylus/**/*.styl'
@@ -239,61 +256,85 @@ module.exports = (grunt) ->
 	### TASKS ###
 	#############
 
-	grunt.loadNpmTasks 'grunt-contrib-coffee'
-	grunt.loadNpmTasks 'grunt-contrib-concat'
-	grunt.loadNpmTasks 'grunt-contrib-connect'
-	grunt.loadNpmTasks 'grunt-contrib-copy'
-	grunt.loadNpmTasks 'grunt-contrib-cssmin'
-	grunt.loadNpmTasks 'grunt-contrib-jade'
-	grunt.loadNpmTasks 'grunt-contrib-requirejs'
-	grunt.loadNpmTasks 'grunt-contrib-stylus'
-	grunt.loadNpmTasks 'grunt-contrib-uglify'
-	grunt.loadNpmTasks 'grunt-contrib-watch'
-	grunt.loadNpmTasks 'grunt-shell'
-	grunt.loadNpmTasks 'grunt-text-replace'
-	grunt.loadNpmTasks 'grunt-groc'
-
-	grunt.registerTask('default', ['sw']);
-	
-	# Generate docs
-	grunt.registerTask 'd', ['shell:groc']
-
-	# Server
-	grunt.registerTask 's', ['connect:keepalive']
-
-	# Watch
-	grunt.registerTask 'w', ['watch']
-
-	# Server and watch
-	grunt.registerTask 'sw', [
-		'connect:compiled'
-		'connect:dist'
-		'connect:test'
-		'watch'
+	tasks = [
+		'grunt-contrib-coffee'
+		'grunt-contrib-concat'
+		'grunt-contrib-connect'
+		'grunt-contrib-copy'
+		'grunt-contrib-cssmin'
+		'grunt-contrib-jade'
+		'grunt-contrib-requirejs'
+		'grunt-contrib-stylus'
+		'grunt-contrib-uglify'
+		'grunt-contrib-watch'
+		'grunt-shell'
+		'grunt-text-replace'
+		'grunt-groc'
+		'grunt-rsync'
 	]
 
-	# Compile
-	grunt.registerTask 'c', [
-		'shell:emptycompiled' # rm -rf compiled/
-		'shell:bowerinstall' # Get dependencies first, cuz css needs to be included (and maybe images?)
-		'createSymlinks:compiled'
-		'coffee:init'
-		'jade:init'
-		'stylus:compile'
-		'concat:css'
+	grunt.loadNpmTasks task for task in tasks
+
+	jobs = [
+			# default
+			aliases: ['default']
+			tasks: ['sw']
+		,
+			# generate docs
+			aliases: ['d']
+			tasks: ['shell:groc']
+		,
+			# server
+			aliases: ['s']
+			tasks:['connect:keepalive']
+		,
+			# watch
+			aliases: ['w']
+			tasks: ['watch']
+		,
+			# server and watch
+			aliases: ['sw']
+			tasks: [
+				'connect:compiled'
+				'connect:dist'
+				'connect:test'
+				'watch'
+			]
+		,
+			# compile
+			aliases: ['c', 'compile']
+			tasks: [
+				'shell:emptycompiled'	# rm -rf compiled/
+				'shell:bowerinstall'	# Get dependencies first, cuz css needs to be included (and maybe images?)
+				'createSymlinks:compiled'
+				'coffee:init'
+				'jade:init'
+				'stylus:compile'
+				'rsync:compiled'
+				'concat:css'
+			]
+		,
+			# build
+			aliases: ['b', 'build']
+			tasks: [
+				'shell:emptydist'
+				'createSymlinks:dist'
+				'replace:html' 				# Copy and replace index.html
+				'cssmin:dist'
+				'rsync:dist'
+				'requirejs:compile' 	# Run r.js
+				# 'shell:rsync'				# Rsync to test server			
+			]
+		,q
+			# all
+			aliases: ['all']
+			tasks: ['compile', 'docs', 'build', 'sw']
 	]
 
-	# Build
-	grunt.registerTask 'b', [
-		'shell:emptydist'
-		'createSymlinks:dist'
-		'replace:html' # Copy and replace index.html
-		'cssmin:dist'
-		'requirejs:compile' # Run r.js
-		# 'shell:rsync' # Rsync to test server
-	]
+	for job in jobs
+		for alias in job.aliases
+			grunt.registerTask alias, job.tasks
 
-	grunt.registerTask 'all', ['c', 'd', 'b', 'sw']
 
 	grunt.registerMultiTask 'createSymlinks', 'Creates a symlink', ->
 		for own index, config of this.data
@@ -311,23 +352,20 @@ module.exports = (grunt) ->
 			fs.symlinkSync src, dest
 
 
-
-
 	##############
 	### EVENTS ###
 	##############
 
 	grunt.event.on 'watch', (action, srcPath) ->
-		if srcPath.substr(0, 3) is 'src' # Make sure file comes from src/		
-			type = 'coffee' if srcPath.substr(-7) is '.coffee'
-			type = 'jade' if srcPath.substr(-5) is '.jade'
+		if srcPath.substr(0, 3) is 'src' # Make sure file comes from src/
+			type = (srcPath.split('.').splice -1)[0]
 
 			if type is 'coffee'
 				testDestPath = srcPath.replace 'src/coffee', 'test'
 				destPath = 'compiled'+srcPath.replace(new RegExp(type, 'g'), 'js').substr(3);
 
 			if type is 'jade'
-				destPath = 'compiled'+srcPath.replace(new RegExp(type, 'g'), 'html').substr(3);
+				destPath = 'compiled' + srcPath.replace(new RegExp(type, 'g'), 'html').substr(3);
 
 			if type? and action is 'changed' or action is 'added'
 				data = {}

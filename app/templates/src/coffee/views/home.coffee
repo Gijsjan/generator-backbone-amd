@@ -14,6 +14,6 @@ define (require) ->
 
 		render: ->
 			rtpl = _.template Templates.Home
-			@$el.html rtpl
+			@$el.html rtpl()
 
 			@
