@@ -17,6 +17,7 @@ connect_middleware = (connect, options) ->
 				'.css': 'text/css'
 				'.js': 'application/javascript'
 				'.map': 'application/javascript' # js source maps
+				'.json': 'application/json'
 				'.gif': 'image/gif'
 				'.jpg': 'image/jpeg'
 				'.jpeg': 'image/jpeg'
@@ -166,7 +167,7 @@ module.exports = (grunt) ->
 			compile:
 				options:
 					paths: ['src/stylus/import']
-					import: ['variables', 'functions', 'helpers']
+					import: ['variables', 'functions']
 				files:
 					'compiled/css/project.css': [
 						'src/stylus/**/*.styl'
