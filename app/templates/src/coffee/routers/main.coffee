@@ -1,7 +1,7 @@
 define (require) ->
 	Backbone = require 'backbone'
-	viewManager = require 'managers/view'
-	Pubsub = require 'managers/pubsub'
+	viewManager = require 'hilib/managers/view'
+	Pubsub = require 'hilib/managers/pubsub'
 	currentUser = require 'models/currentUser'
 
 	Views =

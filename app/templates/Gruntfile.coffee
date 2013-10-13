@@ -231,8 +231,9 @@ module.exports = (grunt) ->
 						'domready': '../lib/requirejs-domready/domReady'
 						# 'faceted-search': '../lib/faceted-search/dist/js/main'
 						# 'supertinyeditor': '../lib/supertinyeditor/main'
-						'managers': '../lib/managers/dev'
-						'helpers': '../lib/helpers/dev'
+						# 'managers': '../lib/managers/dev'
+						# 'helpers': '../lib/helpers/dev'
+						'hilib': '../lib/hilib/compiled'
 						'html': '../html'
 					wrap: true
 
@@ -326,7 +327,7 @@ module.exports = (grunt) ->
 				'requirejs:compile' 	# Run r.js
 				# 'shell:rsync'				# Rsync to test server			
 			]
-		,q
+		,
 			# all
 			aliases: ['all']
 			tasks: ['compile', 'docs', 'build', 'sw']

@@ -33,6 +33,7 @@
 		"grunt-contrib-concat": "*",
 		"grunt-text-replace": "*",
 		"grunt-contrib-connect": "*",
-		"grunt-groc": "*"
+		"grunt-groc": "*",
+		"grunt-rsync": "*"
 	}
 }
