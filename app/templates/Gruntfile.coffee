@@ -340,8 +340,15 @@ module.exports = (grunt) ->
 
 	grunt.registerMultiTask 'createSymlinks', 'Creates a symlink', ->
 		for own index, config of this.data
-			src = if config.src[0] isnt '/' then process.cwd() + '/' + config.src else config.src
-			dest = if config.dest[0] isnt '/' then process.cwd() + '/' + config.dest else config.dest
+
+			src = config.src
+			dest = config.dest
+
+			src = process.env.HOME + src.substr(1) if src[0] is '~'
+			dest = process.env.HOME + dest.substr(1) if dest[0] is '~'
+
+			src = process.cwd() + '/' + src if src[0] isnt '/'
+			dest = process.cwd() + '/' + dest if dest[0] isnt '/'
 
 			grunt.log.writeln 'ERROR: source dir does not exist!' if not fs.existsSync(src) # Without a source, all is lost.
 
