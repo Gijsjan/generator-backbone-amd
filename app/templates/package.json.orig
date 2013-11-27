@@ -1,0 +1,42 @@
+{
+	"name": "<%= _.slugify(projectName) %>",
+	"version": "0.0.0",
+	"author": {
+		"name": "",
+		"email": ""
+	},
+	"main": "app/index.js",
+	"scripts": {
+		"start": "grunt server",
+		"test": "grunt test"
+	},
+	"devDependencies": {
+		"coffee-script": "*",
+		"stylus": "*",
+		"jade": "*",
+		"grunt": "*",
+		"grunt-shell": "*",
+		"grunt-contrib-watch": "*",
+		"grunt-contrib-coffee": "*",
+		"grunt-contrib-jade": "*",
+		"grunt-contrib-stylus": "*",
+		"grunt-contrib-requirejs": "*",
+		"grunt-contrib-copy": "*",
+		"grunt-contrib-uglify": "*",
+		"grunt-contrib-cssmin": "*",
+		"grunt-contrib-concat": "*",
+		"grunt-text-replace": "*",
+		"grunt-contrib-connect": "*",
+<<<<<<< HEAD
+		"grunt-newer": "*",
+		"grunt-concurrent": "*",
+		"grunt-groc": "*",
+		"grunt-plato": "*",
+		"load-grunt-tasks": "*",
+		"my-grunt-modules": "Gijsjan/my-grunt-modules"
+=======
+		"grunt-groc": "*",
+		"grunt-rsync": "*"
+>>>>>>> 6dc4ba7934539a2b265cec2ad349348897a7fbcc
+	}
+}

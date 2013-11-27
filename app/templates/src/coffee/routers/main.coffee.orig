@@ -1,0 +1,26 @@
+define (require) ->
+	config = require 'config'
+	Backbone = require 'backbone'
+	viewManager = require 'hilib/managers/view'
+<<<<<<< HEAD
+	Pubsub = require 'hilib/mixins/pubsub'
+=======
+	Pubsub = require 'hilib/managers/pubsub'
+>>>>>>> 6dc4ba7934539a2b265cec2ad349348897a7fbcc
+	currentUser = require 'models/currentUser'
+
+	Views =
+		Home: require 'views/home'
+
+	class MainRouter extends Backbone.Router
+
+		initialize: ->
+			_.extend @, Pubsub
+
+			@on 'route', @show, @
+
+		'routes':
+			'': 'home'
+
+		home: ->
+			viewManager.show config.rootEl, Views.Home

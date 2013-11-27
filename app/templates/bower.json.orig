@@ -11,8 +11,19 @@
 		"requirejs": "*",
 		"requirejs-text": "*",
 		"requirejs-domready": "*",
+<<<<<<< HEAD
+=======
+		"jquery": "*",
+		"underscore-amd": "*",
+		"backbone-amd": "*",
+		"normalize-css": "*",
+		"hilib": "https://github.com/Gijsjan/hilib.git"
+	},
+	"devDependencies": {
+>>>>>>> 6dc4ba7934539a2b265cec2ad349348897a7fbcc
 		"mocha": "*",
 		"chai": "*",
 		"classList.js": "https://github.com/eligrey/classList.js.git"
 	}
 }
+

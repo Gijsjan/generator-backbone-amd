@@ -1,0 +1,27 @@
+require.config 
+	paths:
+		'jquery': '../lib/jquery/jquery'
+		'underscore': '../lib/underscore-amd/underscore'
+		'backbone': '../lib/backbone-amd/backbone'
+		'domready': '../lib/requirejs-domready/domReady'
+<<<<<<< HEAD
+		'classList': '../lib/classList.js/classList'
+		'hilib': '../lib/hilib/compiled'
+		'jade': '../lib/jade/runtime'
+		'tpls': '../templates'
+
+=======
+		'text': '../lib/requirejs-text/text'
+		'hilib': '../lib/hilib/compiled'
+		'html': '../html'
+>>>>>>> 6dc4ba7934539a2b265cec2ad349348897a7fbcc
+
+	shim:
+		'underscore':
+			exports: '_'
+		'backbone':
+			deps: ['underscore', 'jquery']
+			exports: 'Backbone'
+
+require ['domready', 'app', 'classList'], (domready, app) ->
+	domready -> app.initialize()

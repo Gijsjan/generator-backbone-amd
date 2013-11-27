@@ -1,0 +1,16 @@
+define (require) ->
+	Backbone = require 'backbone'
+
+<<<<<<< HEAD
+	Pubsub = require 'hilib/mixins/pubsub'
+=======
+	Pubsub = require 'hilib/managers/pubsub'
+>>>>>>> 6dc4ba7934539a2b265cec2ad349348897a7fbcc
+	viewManager = require 'hilib/managers/view'
+
+	class BaseView extends Backbone.View
+
+		initialize: ->
+			viewManager.register @
+
+			_.extend @, Pubsub # extend the view with pubsub terminology (just aliases for listenTo and trigger)

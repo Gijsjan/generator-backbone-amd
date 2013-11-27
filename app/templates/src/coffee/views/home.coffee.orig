@@ -1,0 +1,23 @@
+define (require) ->
+
+	BaseView = require 'views/base'
+
+	tpls = require 'tpls'
+
+	class Home extends BaseView
+
+		initialize: ->
+			super
+
+			@render()
+
+		render: ->
+<<<<<<< HEAD
+			rtpl = tpls['home']()
+			@$el.html rtpl
+=======
+			rtpl = _.template Templates.Home
+			@$el.html rtpl()
+>>>>>>> 6dc4ba7934539a2b265cec2ad349348897a7fbcc
+
+			@
