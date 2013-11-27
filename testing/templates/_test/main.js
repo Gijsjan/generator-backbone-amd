@@ -1,5 +1,5 @@
 require.config({
-	baseUrl: '/dev/js/',
+	baseUrl: '/compiled/js/',
 	paths: {
 		mocha: '../lib/mocha/mocha',
 		chai: '../lib/chai/chai'

@@ -2,8 +2,7 @@ define (require) ->
 
 	BaseView = require 'views/base'
 
-	Templates =
-		Home: require 'text!html/home.html'
+	tpls = require 'tpls'
 
 	class Home extends BaseView
 
@@ -13,7 +12,7 @@ define (require) ->
 			@render()
 
 		render: ->
-			rtpl = _.template Templates.Home
+			rtpl = tpls['home']()
 			@$el.html rtpl
 
 			@

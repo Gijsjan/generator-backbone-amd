@@ -4,10 +4,11 @@ require.config
 		'underscore': '../lib/underscore-amd/underscore'
 		'backbone': '../lib/backbone-amd/backbone'
 		'domready': '../lib/requirejs-domready/domReady'
-		'text': '../lib/requirejs-text/text'
-		'managers': '../lib/managers/dev'
-		'helpers': '../lib/helpers/dev'
-		'html': '../html'
+		'classList': '../lib/classList.js/classList'
+		'hilib': '../lib/hilib/compiled'
+		'jade': '../lib/jade/runtime'
+		'tpls': '../templates'
+
 
 	shim:
 		'underscore':
@@ -16,6 +17,5 @@ require.config
 			deps: ['underscore', 'jquery']
 			exports: 'Backbone'
 
-require ['domready', 'app'], (domready, app) ->
-	domready ->
-		app.initialize()
+require ['domready', 'app', 'classList'], (domready, app) ->
+	domready -> app.initialize()

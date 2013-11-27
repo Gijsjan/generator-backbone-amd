@@ -1,21 +1,19 @@
 {
 	"name": "<%= _.slugify(projectName) %>",
 	"version": "0.0.0",
-	"dependencies": {
+	"devDependencies": {
+		"jquery": "*",
+		"underscore-amd": "*",
+		"backbone-amd": "1.0",
+		"normalize-css": "*",
+		"jade": "*",
 		"almond": "*",
 		"requirejs": "*",
 		"requirejs-text": "*",
 		"requirejs-domready": "*",
-		"jquery": "*",
-		"underscore-amd": "*",
-		"backbone-amd": "*",
-		"normalize-css": "*",
-		"helpers": "git@github.com:Gijsjan/helpers.git",
-		"managers": "git@github.com:Gijsjan/managers.git"
-	},
-	"devDependencies": {
 		"mocha": "*",
-		"chai": "*"
+		"chai": "*",
+		"classList.js": "https://github.com/eligrey/classList.js.git"
 	}
 }
 

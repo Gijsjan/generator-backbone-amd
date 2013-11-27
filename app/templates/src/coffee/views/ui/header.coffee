@@ -2,8 +2,7 @@ define (require) ->
 	Views = 
 		Base: require 'views/base'
 
-	Templates =
-		Header: require 'text!html/ui/header.html'
+	tpls = require 'tpls'
 
 	class Header extends Views.Base
 
@@ -15,7 +14,7 @@ define (require) ->
 			@render()
 
 		render: ->
-			rtpl = _.template Templates.Header
+			rtpl = tpls['ui/header']()
 			@$el.html rtpl
 
 			@

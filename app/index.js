@@ -47,6 +47,7 @@ DefaultGenerator.prototype.createBase = function app() {
 	this.mkdir('images');
 
 	this.copy('_bowerrc', '.bowerrc');
+	this.copy('_groc.json', '.groc.json');
 	this.copy('Gruntfile.coffee', 'Gruntfile.coffee');
 	this.copy('server.coffee', 'server.coffee');
 

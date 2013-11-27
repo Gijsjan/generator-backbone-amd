@@ -6,20 +6,14 @@
 		"email": ""
 	},
 	"main": "app/index.js",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/Gijsjan/generator-backbone-amd.git"
-	},
 	"scripts": {
-		"test": "node ./.test/bin/server.js",
-		"start": "coffee ./server.coffee"
+		"start": "grunt server",
+		"test": "grunt test"
 	},
 	"devDependencies": {
 		"coffee-script": "*",
 		"stylus": "*",
 		"jade": "*",
-		"underscore": "*",
-		"express": "*",
 		"grunt": "*",
 		"grunt-shell": "*",
 		"grunt-contrib-watch": "*",
@@ -33,6 +27,11 @@
 		"grunt-contrib-concat": "*",
 		"grunt-text-replace": "*",
 		"grunt-contrib-connect": "*",
-		"grunt-groc": "*"
+		"grunt-newer": "*",
+		"grunt-concurrent": "*",
+		"grunt-groc": "*",
+		"grunt-plato": "*",
+		"load-grunt-tasks": "*",
+		"my-grunt-modules": "Gijsjan/my-grunt-modules"
 	}
 }

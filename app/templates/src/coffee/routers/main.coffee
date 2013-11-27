@@ -1,7 +1,8 @@
 define (require) ->
+	config = require 'config'
 	Backbone = require 'backbone'
-	viewManager = require 'managers/view'
-	Pubsub = require 'managers/pubsub'
+	viewManager = require 'hilib/managers/view'
+	Pubsub = require 'hilib/mixins/pubsub'
 	currentUser = require 'models/currentUser'
 
 	Views =
@@ -18,4 +19,4 @@ define (require) ->
 			'': 'home'
 
 		home: ->
-			viewManager.show Views.Home
+			viewManager.show config.rootEl, Views.Home
